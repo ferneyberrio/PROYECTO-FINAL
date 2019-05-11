@@ -1,0 +1,225 @@
+
+
+/************ PROYECTO FINAL PARTE 1 *************************************/
+
+/********* REALIZADO POR: Ferney Antonio Berrio Zuleta. 1035912365**********/
+
+#include <iostream>
+#include<math.h>
+#include<stdlib.h>
+#include<stdio.h>
+#define PI 3.14159265359
+using namespace std;
+
+int Seleccion = 0;
+
+// declaración de funciones
+
+ int menu_usuario(void);                                // funcion MENÜ
+ void ecuacion( int );                                  // llama la ecuacion a calcular
+ void parabolico();
+ void colic_elast();                                    // func colición elastica
+ void rebotes();                                        // func rebotes
+ void viscoso();                                        // func medio viscoso
+ float radianes(float);                                 // pasa de grado a radianes
+
+ // variables para movimiento parabolico
+float velocidadX, velocidadY, vel_inicial, angulo, kte_friccion, radio_particula, periodo, posicion, pos_inic_y, gravedad = 9.807 ;
+float posX, posY, velX, velY, Grados;
+ // variables para coliciones elasticas
+float vel_part1, vel_part2, masa1, masa2, vel_final1, vel_final2, mass1, mass2 ;
+ // variables para rebotes
+float altura_rebote, coef_elast = 1, masa_reb;
+
+/************** funcion principal***********/
+int main(){
+
+
+  Seleccion = menu_usuario();                           // llamado al menu de usuario
+  ecuacion( Seleccion);                                 // envía el valor seleccionado
+
+  //cout << "la seleccion ha sido  : " << Seleccion  << endl;
+
+
+           }
+
+
+// funciones
+
+
+// función para el menú de usuario
+
+int menu_usuario(void){
+
+
+    int leer_selc =0;
+
+  cout << "     !!! BIENVENIDO !!! " << endl;
+  cout << "SELECCIONE LA ECUACION A CALCULAR" << endl;
+  cout << endl;
+  cout << endl;
+  cout << " 1:  MOVIMIENTO PARABOLICO" << endl;
+  cout << " 2:  COLISION ELASTICA" << endl;
+  cout << " 3:  REBOTES" << endl;
+  cout << " 4:  FRICCION EN MEDIO VISCOSO" << endl;
+  cin >> leer_selc ;
+
+
+// retorna el valor que selecciono el usuario
+  switch(leer_selc){
+
+      case 1: return leer_selc ;
+      break;
+      case 2: return leer_selc;
+      break;
+      case 3: return leer_selc;
+      break;
+      case 4: return leer_selc;
+      break;
+      default: cout << " !SE HA INGRESADO UNA SELECCION INVALIDA repitala por favor!" << endl;
+       break;
+                    }
+
+    }
+
+
+
+// funcion para direccionar la seleccion a la ecuacion correspondiente
+
+void ecuacion( int ecu_selec ){
+
+
+    switch(ecu_selec){
+
+        case 1:                                         // si es la opción #1
+        cout << "VAMOS A CALCULAR MOVIMIENTO PARABOLICO ( PARA UN proyectil)" << endl;
+        cout << endl;
+        parabolico() ;                                  // llama la func mov parabolico
+        break;
+        case 2:
+        cout << "VAMOS A CALCULAR COLICION ELASTICA" << endl;
+        cout << endl;
+        colic_elast() ;                                 // llama func colicion elastica
+        break;
+        case 3:
+        cout << "VAMOS A CALCULAR REBOTES " << endl;
+        cout << endl;
+        rebotes() ;                                     // llama la func rebotes
+        break;
+        case 4:
+        cout << "VAMOS A CALCULAR FRICCION EN MEDIO VISCOSO" << endl;
+        cout << endl;
+        viscoso() ;                                     // llama func medios viscosos
+        break;
+        default: cout << "  NO HAY UNA SELECCION VALIDA" << endl;
+                      }
+
+                      }
+
+// funciones para movimiento parabolico (PARA un proyectil)
+
+void parabolico(){
+
+
+    cout << "Ingrese la velocidad inicial" << endl;
+    cin >> vel_inicial;
+    cout << "Ingrese la Posicion inicial" << endl;
+    cin >> pos_inic_y;
+    cout << "Ingrese el angulo de lanzamiento (EN GRADOS)" << endl;
+    cin >> angulo;
+    cout << "Ingrese el coeficiente de friccion" << endl;
+    cin >> kte_friccion;
+    cout << "Ingrese el radio de la particula" << endl;
+    cin >> radio_particula;
+    cout << "Ingrese el periodo de tiempo" << endl;
+    cin >> periodo;
+
+
+    Grados = radianes(angulo);                                     // llamado a la función para pasar de grados a radianes
+    velocidadX = (cos( Grados )) * vel_inicial ;                   // calculo velocidad en x
+    velocidadY = (sin( Grados )) * vel_inicial ;                   // calculo velocidad en y
+    posX =  velocidadX * periodo ;                                 // calculo posición en x
+    // calculo posición en y
+    posY = pos_inic_y + velocidadY * periodo -  0.5 * gravedad * ( pow (periodo , 2))   ;
+
+    velX = velocidadX ;                                             // calc final para velocidad en x
+    velY = velocidadY -( gravedad * periodo );                      //  // calc final para velocidad en y
+
+    // mostrar los calculos realizados
+    cout << "LA POSICION EN X ES : " << posX << endl;
+    cout << "LA POSICION EN Y ES : " << posY << endl;
+    cout << "LA VELOCIDAD EN X ES : " << velX << endl;
+    cout << "LA VELOCIDAD EN Y ES : " << velY << endl;
+
+
+                 }
+
+// funcion para pasar de grados a radianes y calcular el seno
+
+   float radianes(float grados){
+    int grados_radianes;                     // declaracion de variable
+  grados_radianes = (grados*PI)/180;         // pasa de grados a radianes
+  return grados_radianes;                    // Retorna la conversión
+
+                    }
+
+// funcion colicion elastica
+
+void colic_elast(){
+
+
+    cout << "Ingrese la masa de la particula 1" << endl;
+    cin >> masa1;
+    cout << "Ingrese la masa de la particula #2" << endl;
+    cin >> masa2;
+    cout << "Ingrese la velocidad inicial de la particula 1" << endl;
+    cin >> vel_part1;
+    cout << "Ingrese la velocidad inicial de la particula #2" << endl;
+    cin >> vel_part2;
+
+     mass1 = (masa1 - masa2)/(masa1 + masa2);                           // suma de masas
+     mass2 = (masa2 - masa1)/(masa1 + masa2);
+
+    if(vel_part2 == 0){
+
+        cout << " LOS CALCULOS seran para una particula en reposo" << endl;
+        vel_final1 =  mass1  * vel_part1 ;                              // velocidad final particula 1
+        vel_final2 = ((2*(masa1))/(masa1 + masa2)) * vel_part1 ;        // velocidad final particula 2
+                }
+
+    else {
+          cout << " LOS CALCULOS seran para ambas particulas en movimiento" << endl;
+            vel_final1 =  (mass1*vel_part1)  + (((2*(masa2))/(masa1 + masa2)) * (-vel_part2)) ;
+            vel_final2 = (((2*masa1)/(masa1 + masa2)) * (vel_part1)) + (mass2 * vel_part2) ;
+                }
+
+           cout << "LA VELOCIDAD FINAL DE MASA 1 ES : " << vel_final1 << endl;
+           cout << "LA VELOCIDAD FINAL DE MASA 1 ES : " << vel_final2 << endl;
+
+
+}
+
+// funcion para rebotes
+
+void rebotes(){
+
+ 
+
+
+
+
+
+
+}
+
+// funcion para medio viscoso
+
+void viscoso(){
+
+
+
+
+
+
+
+}
